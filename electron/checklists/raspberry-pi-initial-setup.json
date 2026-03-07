@@ -1,0 +1,98 @@
+{
+  "id": "raspberry-pi-initial-setup",
+  "name": "Raspberry Pi – Initial setup",
+  "description": "First-time setup: SD card, assembly, first boot, SSH.",
+  "version": "1.0",
+  "materials": [
+    "Raspberry Pi (4 or 5 recommended)",
+    "MicroSD card (8GB+ Class 10)",
+    "Official power supply (5V 3A, USB-C for Pi 4/5)",
+    "HDMI cable (or micro-HDMI with adapter for Pi 4/5)",
+    "USB keyboard and mouse",
+    "Computer with Raspberry Pi Imager (to flash the SD card)",
+    "Optional: Ethernet cable or Wi‑Fi for network setup"
+  ],
+  "steps": [
+    {
+      "id": "imager-available",
+      "title": "Raspberry Pi Imager is available",
+      "type": "software",
+      "criteria": {
+        "commands": [
+          "which rpi-imager 2>/dev/null || which raspberrypi-imager 2>/dev/null || (test -d \"/Applications/Imager.app\" && echo ok) || (test -d \"/Applications/Raspberry Pi Imager.app\" && echo ok) || echo 'not found'"
+        ],
+        "platform": "host"
+      },
+      "guidance": "Install Raspberry Pi Imager from https://www.raspberrypi.com/software/ if missing. On macOS check Applications; on Linux/Windows use the official installer."
+    },
+    {
+      "id": "sd-flashed",
+      "title": "SD card flashed and ejected",
+      "type": "human",
+      "proofType": "image",
+      "criteria": {
+        "visionPrompt": "Does the image show either (1) the Raspberry Pi Imager 'Write successful' or 'Eject' success screen, or (2) the MicroSD card removed from the reader and visible (e.g. in hand or on surface)?"
+      },
+      "guidance": "Use Imager to write Raspberry Pi OS to the SD card. When done, safely eject and remove the card. Take a photo of the success screen or of the ejected SD card."
+    },
+    {
+      "id": "sd-inserted-pi",
+      "title": "MicroSD card inserted into the Raspberry Pi",
+      "type": "human",
+      "proofType": "image",
+      "criteria": {
+        "visionPrompt": "Is a MicroSD card fully inserted into the Raspberry Pi's card slot (slot visible, card not protruding abnormally)?"
+      },
+      "guidance": "Insert the flashed MicroSD into the Pi's slot under the board. Take a clear photo of the Pi with the card inserted."
+    },
+    {
+      "id": "hdmi-connected",
+      "title": "HDMI cable connected to Pi and display",
+      "type": "human",
+      "proofType": "image",
+      "criteria": {
+        "visionPrompt": "Is an HDMI cable (or micro/mini HDMI with adapter) connected to the Raspberry Pi's HDMI port and visible?"
+      },
+      "guidance": "Connect HDMI from the Pi to your monitor. Pi 4/5 use micro HDMI; use the correct adapter. Take a photo showing the cable connected to the Pi."
+    },
+    {
+      "id": "usb-keyboard-mouse",
+      "title": "Keyboard and mouse connected via USB",
+      "type": "human",
+      "proofType": "image",
+      "criteria": {
+        "visionPrompt": "Are a keyboard and a mouse (or two USB devices) connected to the Raspberry Pi's USB ports?"
+      },
+      "guidance": "Plug keyboard and mouse into the Pi's USB ports. Take a photo showing both connected."
+    },
+    {
+      "id": "power-on-boot",
+      "title": "Power connected and Pi booting (LEDs visible)",
+      "type": "human",
+      "proofType": "image",
+      "criteria": {
+        "visionPrompt": "Is the Raspberry Pi powered (red power LED on) and is the display showing the Pi desktop or setup wizard or boot text?"
+      },
+      "guidance": "Connect the official (or compatible) power supply last. You should see red and green LEDs. Take a photo of the powered Pi with the display showing boot or setup wizard."
+    },
+    {
+      "id": "pi-reachable",
+      "title": "Raspberry Pi is reachable on the network",
+      "type": "software",
+      "criteria": {
+        "commands": [
+          "ping -c 1 -W 2 raspberrypi.local 2>/dev/null || ping -c 1 -W 2 {{hostname}} 2>/dev/null || true"
+        ],
+        "platform": "host"
+      },
+      "guidance": "Ensure the Pi is powered and connected (Ethernet or Wi‑Fi). If you set a hostname in Imager, we'll use that; otherwise we try raspberrypi.local."
+    }
+  ],
+  "variables": [
+    {
+      "key": "hostname",
+      "label": "Pi hostname (optional)",
+      "default": "raspberrypi.local"
+    }
+  ]
+}
